@@ -1,5 +1,7 @@
 package entity
 
+import "github.com/rs/zerolog"
+
 type Proxy struct {
 	ProxyID  string `db:"proxy_id" json:"-"`
 	Endpoint string `db:"endpoint" json:"endpoint"`
@@ -11,4 +13,10 @@ func (p Proxy) Validate() error {
 		return ErrInvalid
 	}
 	return nil
+}
+
+func (p Proxy) MarshalZerologObject(e *zerolog.Event) {
+	e.Str("ProxyID", p.ProxyID).
+		Str("Endpoint", p.Endpoint).
+		Bool("Activate", p.Activate)
 }

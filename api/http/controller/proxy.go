@@ -35,10 +35,10 @@ func (p *Proxy) Register(c echo.Context) error {
 	err := p.uc.Register(c.Request().Context(), proxy)
 	if err != nil {
 		if errors.Is(err, entity.ErrInvalid) {
-			log.Debug().Err(err).Msg("illegal proxy")
+			log.Debug().Err(err).Object("proxy", proxy).Msg("illegal proxy")
 			return echo.NewHTTPError(http.StatusBadRequest)
 		}
-		log.Error().Err(err).Msg("unexpected error PUT /proxy/:proxy-id/register")
+		log.Error().Err(err).Object("proxy", proxy).Msg("unexpected error PUT /proxy/:proxy-id/register")
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
 
@@ -54,7 +54,7 @@ func (p *Proxy) Activate(c echo.Context) error {
 
 	routes, err := p.uc.Activate(c.Request().Context(), proxyID)
 	if err != nil {
-		log.Error().Err(err).Msg("unexpected error PUT /proxy/:proxy-id/activate")
+		log.Error().Err(err).Str("proxyID", proxyID).Msg("unexpected error PUT /proxy/:proxy-id/activate")
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
 	return c.JSON(http.StatusOK, routes)
@@ -69,7 +69,7 @@ func (p *Proxy) Delete(c echo.Context) error {
 
 	err := p.uc.Delete(c.Request().Context(), proxyID)
 	if err != nil {
-		log.Error().Err(err).Msg("unexpected error DELETE /proxy/:proxy-id")
+		log.Error().Err(err).Str("proxyID", proxyID).Msg("unexpected error DELETE /proxy/:proxy-id")
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
 	return c.NoContent(http.StatusOK)
