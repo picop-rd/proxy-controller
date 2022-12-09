@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  bcop-proxy-controller:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: --port "8080" --mysql "bcop:bcop@tcp(mysql:3306)/bcop?parseTime=true&collation=utf8mb4_bin"
+    ports: 
+      - 8080:8080
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - ./repository/mysql/schema:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: bcop
+      MYSQL_USER: bcop
+      MYSQL_PASSWORD: bcop
+      MYSQL_DATABASE: bcop
+    ports:
+      - 13306:3306
+
