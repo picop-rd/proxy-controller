@@ -1,3 +1,7 @@
+.PHONY:docker-compose-build
+docker-compose-build: test
+	docker compose build --ssh default
+
 .PHONY:test
 test: vet fmt
 	go test ./...
