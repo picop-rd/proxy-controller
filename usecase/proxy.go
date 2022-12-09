@@ -53,5 +53,10 @@ func (p *Proxy) Activate(ctx context.Context, proxyID string) ([]entity.Route, e
 }
 
 func (p *Proxy) Delete(ctx context.Context, proxyID string) error {
+	err := p.proxy.Delete(ctx, proxyID)
+	if err != nil {
+		return fmt.Errorf("failed to delete proxy from repository: %w", err)
+	}
+	// TODO: proxyclientへのキューから該当proxyのrouteを削除する
 	return nil
 }

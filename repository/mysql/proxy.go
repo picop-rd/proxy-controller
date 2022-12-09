@@ -48,5 +48,10 @@ func (p *Proxy) Upsert(ctx context.Context, proxy entity.Proxy) error {
 }
 
 func (p *Proxy) Delete(ctx context.Context, proxyID string) error {
-	return nil
+	query := `
+		DELETE FROM proxies
+		WHERE proxy_id = ?
+	`
+	_, err := p.db.ExecContext(ctx, query, proxyID)
+	return err
 }

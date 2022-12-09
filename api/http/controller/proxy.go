@@ -54,12 +54,23 @@ func (p *Proxy) Activate(c echo.Context) error {
 
 	routes, err := p.uc.Activate(c.Request().Context(), proxyID)
 	if err != nil {
-		log.Error().Err(err).Msg("unexpected error PUT /proxy/:proxy-id/register")
+		log.Error().Err(err).Msg("unexpected error PUT /proxy/:proxy-id/activate")
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
 	return c.JSON(http.StatusOK, routes)
 }
 
 func (p *Proxy) Delete(c echo.Context) error {
-	return nil
+	proxyID := c.Param("proxy-id")
+	if len(proxyID) == 0 {
+		log.Debug().Msg("illegal param")
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+
+	err := p.uc.Delete(c.Request().Context(), proxyID)
+	if err != nil {
+		log.Error().Err(err).Msg("unexpected error DELETE /proxy/:proxy-id")
+		return echo.NewHTTPError(http.StatusInternalServerError)
+	}
+	return c.NoContent(http.StatusOK)
 }
