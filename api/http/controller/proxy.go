@@ -21,11 +21,13 @@ func NewProxy(uc *usecase.Proxy) *Proxy {
 func (p *Proxy) Register(c echo.Context) error {
 	proxyID := c.Param("proxy-id")
 	if len(proxyID) == 0 {
+		log.Debug().Msg("illegal param")
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
 	var proxy entity.Proxy
 	if err := c.Bind(&proxy); err != nil {
+		log.Debug().Err(err).Msg("illegal body")
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 	proxy.ProxyID = proxyID
@@ -33,6 +35,7 @@ func (p *Proxy) Register(c echo.Context) error {
 	err := p.uc.Register(c.Request().Context(), proxy)
 	if err != nil {
 		if errors.Is(err, entity.ErrInvalid) {
+			log.Debug().Err(err).Msg("illegal proxy")
 			return echo.NewHTTPError(http.StatusBadRequest)
 		}
 		log.Error().Err(err).Msg("unexpected error PUT /proxy/:proxy-id/register")
@@ -45,6 +48,7 @@ func (p *Proxy) Register(c echo.Context) error {
 func (p *Proxy) Activate(c echo.Context) error {
 	proxyID := c.Param("proxy-id")
 	if len(proxyID) == 0 {
+		log.Debug().Msg("illegal param")
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
