@@ -42,5 +42,25 @@ func (r *Route) Put(c echo.Context) error {
 	}
 
 	return c.NoContent(http.StatusOK)
+}
 
+func (r *Route) Delete(c echo.Context) error {
+	routes := []entity.Route{}
+
+	if err := c.Bind(&routes); err != nil {
+		log.Debug().Err(err).Msg("illegal body")
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+
+	err := r.uc.Delete(c.Request().Context(), routes)
+	if err != nil {
+		arrRoutes := zerolog.Arr()
+		for _, r := range routes {
+			arrRoutes = arrRoutes.Object(r)
+		}
+		log.Error().Err(err).Array("routes", arrRoutes).Msg("unexpected error DELETE /routes")
+		return echo.NewHTTPError(http.StatusInternalServerError)
+	}
+
+	return c.NoContent(http.StatusOK)
 }

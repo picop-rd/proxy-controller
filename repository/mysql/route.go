@@ -48,5 +48,19 @@ func (r *Route) Upsert(ctx context.Context, routes []entity.Route) error {
 }
 
 func (r *Route) Delete(ctx context.Context, routes []entity.Route) error {
+	// TODO: Bulk Delete
+	query := `
+		DELETE FROM routes
+		WHERE 
+			proxy_id = :proxy_id
+		AND
+			env_id = :env_id
+	`
+	for _, route := range routes {
+		_, err := r.db.NamedExecContext(ctx, query, route)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }

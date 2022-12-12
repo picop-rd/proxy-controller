@@ -51,6 +51,7 @@ func (s *Server) SetRoute() {
 
 	routes := s.echo.Group("/routes")
 	routes.PUT("", s.route.Put)
+	routes.DELETE("", s.route.Delete)
 }
 
 func (s *Server) Run(address string) {
