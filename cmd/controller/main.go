@@ -30,7 +30,10 @@ func main() {
 	ucProxy := usecase.NewProxy(repoProxy, repoRoute)
 	ctrlProxy := controller.NewProxy(ucProxy)
 
-	server := http.NewServer(ctrlProxy)
+	ucRoute := usecase.NewRoute(repoRoute)
+	ctrlRoute := controller.NewRoute(ucRoute)
+
+	server := http.NewServer(ctrlProxy, ctrlRoute)
 	server.SetRoute()
 
 	go server.Run(":" + *port)

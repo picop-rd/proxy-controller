@@ -8,6 +8,13 @@ type Route struct {
 	Destination string `db:"destination" json:"destination"`
 }
 
+func (r Route) Validate() error {
+	if len(r.ProxyID) == 0 || len(r.EnvID) == 0 || len(r.Destination) == 0 {
+		return ErrInvalid
+	}
+	return nil
+}
+
 func (r Route) MarshalZerologObject(e *zerolog.Event) {
 	e.Str("ProxyID", r.ProxyID).
 		Str("EnvID", r.EnvID).

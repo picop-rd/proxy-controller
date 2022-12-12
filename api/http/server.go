@@ -14,9 +14,10 @@ import (
 type Server struct {
 	echo  *echo.Echo
 	proxy *controller.Proxy
+	route *controller.Route
 }
 
-func NewServer(proxy *controller.Proxy) *Server {
+func NewServer(proxy *controller.Proxy, route *controller.Route) *Server {
 	e := echo.New()
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogMethod:  true,
@@ -37,6 +38,7 @@ func NewServer(proxy *controller.Proxy) *Server {
 	return &Server{
 		echo:  e,
 		proxy: proxy,
+		route: route,
 	}
 }
 
@@ -46,6 +48,9 @@ func (s *Server) SetRoute() {
 	proxy.PUT("/register", s.proxy.Register)
 	proxy.PUT("/activate", s.proxy.Activate)
 	proxy.DELETE("", s.proxy.Delete)
+
+	routes := s.echo.Group("/routes")
+	routes.PUT("", s.route.Put)
 }
 
 func (s *Server) Run(address string) {

@@ -36,7 +36,15 @@ func (r *Route) GetWithProxyID(ctx context.Context, proxyID string) ([]entity.Ro
 }
 
 func (r *Route) Upsert(ctx context.Context, routes []entity.Route) error {
-	return nil
+	query := `
+		INSERT INTO routes (proxy_id, env_id, destination)
+		VALUES (:proxy_id, :env_id, :destination)
+		ON DUPLICATE KEY
+		UPDATE
+			destination = VALUES(destination)
+	`
+	_, err := r.db.NamedExecContext(ctx, query, routes)
+	return err
 }
 
 func (r *Route) Delete(ctx context.Context, routes []entity.Route) error {
