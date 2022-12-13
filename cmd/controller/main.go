@@ -5,10 +5,10 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/api/http"
-	"github.com/hiroyaonoe/bcop-proxy-controller/api/http/controller"
-	"github.com/hiroyaonoe/bcop-proxy-controller/repository/mysql"
-	"github.com/hiroyaonoe/bcop-proxy-controller/usecase"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/controller"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository/mysql"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/usecase"
 	"github.com/rs/zerolog/log"
 )
 

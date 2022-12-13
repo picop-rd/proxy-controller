@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/api/http/controller"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/controller"
 	echo "github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog/log"

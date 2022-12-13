@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/entity"
-	"github.com/hiroyaonoe/bcop-proxy-controller/repository"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository"
 )
 
 type Proxy struct {

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/entity"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
 )
 
 type Route interface {
