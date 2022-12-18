@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/controller"
@@ -16,6 +17,7 @@ import (
 func main() {
 	port := flag.String("port", "8080", "listen port")
 	dsn := flag.String("mysql", "", "mysql data source name")
+	interval := flag.Int("interval", 10, "queue loop interval seconds")
 
 	flag.Parse()
 
@@ -26,7 +28,7 @@ func main() {
 	defer db.Close()
 	repo := mysql.NewRepository(db)
 
-	qu := queue.NewQueue(nil)
+	qu := queue.NewQueue(nil, time.Duration(*interval)*time.Second)
 	go qu.Start()
 	defer qu.Close()
 	client := queue.NewClient(qu)

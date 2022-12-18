@@ -15,18 +15,18 @@ import (
 
 var (
 	ErrContextCanceled = errors.New("proxy client queue: context canceled")
-	QueueLoopInterval  = 10 * time.Second
 )
 
 type Queue struct {
 	queue      *Map[*item]
 	client     *http.Client
+	interval   time.Duration
 	ctx        context.Context
 	cancelFunc context.CancelFunc
 	quit       chan struct{}
 }
 
-func NewQueue(client *http.Client) *Queue {
+func NewQueue(client *http.Client, interval time.Duration) *Queue {
 	if client == nil {
 		client = http.DefaultClient
 	}
@@ -35,6 +35,7 @@ func NewQueue(client *http.Client) *Queue {
 	return &Queue{
 		queue:      NewMap[*item](),
 		client:     client,
+		interval:   interval,
 		ctx:        ctx,
 		cancelFunc: cancel,
 		quit:       make(chan struct{}, 2),
@@ -85,7 +86,7 @@ func (q *Queue) del(proxyID string) {
 }
 
 func (q *Queue) start() error {
-	interval := time.NewTicker(QueueLoopInterval)
+	interval := time.NewTicker(q.interval)
 	log.Info().Msg("starting proxy client queue process")
 	for {
 		select {

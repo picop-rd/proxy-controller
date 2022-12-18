@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: --port "8080" --mysql "bcop:bcop@tcp(mysql:3306)/bcop?parseTime=true&collation=utf8mb4_bin"
+    command: --port "8080" --mysql "bcop:bcop@tcp(mysql:3306)/bcop?parseTime=true&collation=utf8mb4_bin" --interval 10
     ports: 
       - 8080:8080
     depends_on:
