@@ -33,7 +33,7 @@ func (p *Proxy) Register(ctx context.Context, proxy entity.Proxy) error {
 	return nil
 }
 
-func (p *Proxy) Activate(ctx context.Context, proxyID string) ([]entity.Route, error) {
+func (p *Proxy) Activate(ctx context.Context, proxyID string) error {
 	proxy := entity.Proxy{
 		ProxyID:  proxyID,
 		Endpoint: "",
@@ -41,15 +41,15 @@ func (p *Proxy) Activate(ctx context.Context, proxyID string) ([]entity.Route, e
 	}
 	err := p.proxy.Upsert(ctx, proxy)
 	if err != nil {
-		return nil, fmt.Errorf("failed to activate proxy on repository: %w", err)
+		return fmt.Errorf("failed to activate proxy on repository: %w", err)
 	}
 
-	routes, err := p.route.GetWithProxyID(ctx, proxyID)
+	_, err = p.route.GetWithProxyID(ctx, proxyID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get routes from repository: %w", err)
+		return fmt.Errorf("failed to get routes from repository: %w", err)
 	}
 	// TODO: proxyclientを通したリクエストによってrouteを追加する(キューにつめる)
-	return routes, nil
+	return nil
 }
 
 func (p *Proxy) Delete(ctx context.Context, proxyID string) error {

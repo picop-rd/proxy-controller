@@ -52,12 +52,12 @@ func (p *Proxy) Activate(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
-	routes, err := p.uc.Activate(c.Request().Context(), proxyID)
+	err := p.uc.Activate(c.Request().Context(), proxyID)
 	if err != nil {
 		log.Error().Err(err).Str("proxyID", proxyID).Msg("unexpected error PUT /proxy/:proxy-id/activate")
 		return echo.NewHTTPError(http.StatusInternalServerError)
 	}
-	return c.JSON(http.StatusOK, routes)
+	return c.NoContent(http.StatusOK)
 }
 
 func (p *Proxy) Delete(c echo.Context) error {
