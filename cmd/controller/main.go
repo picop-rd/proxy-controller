@@ -7,6 +7,7 @@ import (
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/controller"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient/queue"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository/mysql"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/usecase"
 	"github.com/rs/zerolog/log"
@@ -23,10 +24,14 @@ func main() {
 		log.Fatal().Str("dsn", *dsn).Msg("failed to connect db")
 	}
 	defer db.Close()
-
 	repo := mysql.NewRepository(db)
 
-	ucProxy := usecase.NewProxy(repo)
+	qu := queue.NewQueue(nil)
+	go qu.Start()
+	defer qu.Close()
+	client := queue.NewClient(qu)
+
+	ucProxy := usecase.NewProxy(repo, client)
 	ctrlProxy := controller.NewProxy(ucProxy)
 
 	ucRoute := usecase.NewRoute(repo)

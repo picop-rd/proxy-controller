@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient"
 	"github.com/hiroyaonoe/bcop-proxy/app/admin/api/http/client"
 	proxyEntity "github.com/hiroyaonoe/bcop-proxy/app/entity"
 	"github.com/rs/zerolog/log"
@@ -45,6 +46,7 @@ func (q *Queue) Start() error {
 }
 
 func (q *Queue) Close() {
+	log.Info().Msg("closing proxy client queue")
 	q.cancelFunc()
 
 	ctx := context.Background()
@@ -59,21 +61,32 @@ func (q *Queue) Close() {
 	}
 }
 
+func NewClient(queue *Queue) proxyclient.Client {
+	return proxyclient.Client{
+		Proxy: NewProxy(queue),
+		Route: NewRoute(queue),
+	}
+}
+
 func (q *Queue) get(proxyID string) (*item, bool) {
+	log.Debug().Str("proxyID", proxyID).Msg("Get proxy")
 	return q.queue.Get(proxyID)
 }
 
 func (q *Queue) add(proxyID, endpoint string) {
+	log.Debug().Str("proxyID", proxyID).Str("endpoint", endpoint).Msg("Add proxy")
 	it := newItem(client.NewClient(q.client, endpoint))
 	q.queue.Set(proxyID, it)
 }
 
 func (q *Queue) del(proxyID string) {
+	log.Debug().Str("proxyID", proxyID).Msg("Del proxy")
 	q.queue.Del(proxyID)
 }
 
 func (q *Queue) start() error {
 	interval := time.NewTicker(QueueLoopInterval)
+	log.Info().Msg("starting proxy client queue process")
 	for {
 		select {
 		case <-q.ctx.Done():
@@ -83,6 +96,7 @@ func (q *Queue) start() error {
 		}
 
 		q.queue.Range(func(proxyID string, it *item) bool {
+			log.Debug().Str("proxyID", proxyID).Msg("processing proxy")
 			err := process(q.ctx, it)
 			if err != nil {
 				log.Error().Err(err).Str("proxyID", proxyID).Msg("failed to process queue")
@@ -108,6 +122,7 @@ func processRegisters(ctx context.Context, it *item) error {
 	envs := make([]proxyEntity.Env, 0)
 	bufRoutes := make([]entity.Route, 0)
 	it.registers.Range(func(envID string, route entity.Route) bool {
+		log.Debug().Str("envID", envID).Msg("processing register route")
 		env := proxyEntity.Env{
 			EnvID:       route.EnvID,
 			Destination: route.Destination,
@@ -130,6 +145,7 @@ func processDeletes(ctx context.Context, it *item) error {
 	// sync.Mapはlenが不明なので0としておく
 	envIDs := make([]string, 0)
 	it.deletes.Range(func(envID string, _ entity.Route) bool {
+		log.Debug().Str("envID", envID).Msg("processing delete route")
 		envIDs = append(envIDs, envID)
 		return true
 	})
