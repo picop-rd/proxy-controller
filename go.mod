@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/go-sql-driver/mysql v1.7.0
-	github.com/hiroyaonoe/bcop-proxy v0.0.0-20221213131824-306b5f4e25c1
+	github.com/hiroyaonoe/bcop-proxy v0.0.0-20221218110222-6f18cee2359d
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/labstack/echo/v4 v4.9.1
 	github.com/rs/zerolog v1.28.0
