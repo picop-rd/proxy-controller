@@ -4,6 +4,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository"
 	"github.com/jmoiron/sqlx"
 	"github.com/rs/zerolog/log"
 )
@@ -28,4 +29,11 @@ func NewDB(dsn string) (*sqlx.DB, error) {
 	db.SetMaxIdleConns(100)
 	db.SetMaxOpenConns(100)
 	return db, nil
+}
+
+func NewRepository(db *sqlx.DB) repository.Repository {
+	return repository.Repository{
+		Proxy: NewProxy(db),
+		Route: NewRoute(db),
+	}
 }

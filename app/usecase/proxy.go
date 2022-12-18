@@ -9,14 +9,12 @@ import (
 )
 
 type Proxy struct {
-	proxy repository.Proxy
-	route repository.Route
+	repo repository.Repository
 }
 
-func NewProxy(proxy repository.Proxy, route repository.Route) *Proxy {
+func NewProxy(repo repository.Repository) *Proxy {
 	return &Proxy{
-		proxy: proxy,
-		route: route,
+		repo: repo,
 	}
 }
 
@@ -26,7 +24,7 @@ func (p *Proxy) Register(ctx context.Context, proxy entity.Proxy) error {
 		return fmt.Errorf("invalid proxy: %w", err)
 	}
 
-	err := p.proxy.Upsert(ctx, proxy)
+	err := p.repo.Proxy.Upsert(ctx, proxy)
 	if err != nil {
 		return fmt.Errorf("failed to register proxy to repository: %w", err)
 	}
@@ -39,12 +37,12 @@ func (p *Proxy) Activate(ctx context.Context, proxyID string) error {
 		Endpoint: "",
 		Activate: true,
 	}
-	err := p.proxy.Upsert(ctx, proxy)
+	err := p.repo.Proxy.Upsert(ctx, proxy)
 	if err != nil {
 		return fmt.Errorf("failed to activate proxy on repository: %w", err)
 	}
 
-	_, err = p.route.GetWithProxyID(ctx, proxyID)
+	_, err = p.repo.Route.GetWithProxyID(ctx, proxyID)
 	if err != nil {
 		return fmt.Errorf("failed to get routes from repository: %w", err)
 	}
@@ -53,7 +51,7 @@ func (p *Proxy) Activate(ctx context.Context, proxyID string) error {
 }
 
 func (p *Proxy) Delete(ctx context.Context, proxyID string) error {
-	err := p.proxy.Delete(ctx, proxyID)
+	err := p.repo.Proxy.Delete(ctx, proxyID)
 	if err != nil {
 		return fmt.Errorf("failed to delete proxy from repository: %w", err)
 	}

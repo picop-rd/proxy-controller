@@ -9,11 +9,13 @@ import (
 )
 
 type Route struct {
-	route repository.Route
+	repo repository.Repository
 }
 
-func NewRoute(route repository.Route) *Route {
-	return &Route{route: route}
+func NewRoute(repo repository.Repository) *Route {
+	return &Route{
+		repo: repo,
+	}
 }
 
 func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
@@ -23,7 +25,7 @@ func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
 			return fmt.Errorf("invalid route: %w", err)
 		}
 	}
-	err := r.route.Upsert(ctx, routes)
+	err := r.repo.Route.Upsert(ctx, routes)
 	if err != nil {
 		return fmt.Errorf("failed to register routes to repository: %w", err)
 	}
@@ -32,7 +34,7 @@ func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
 }
 
 func (r *Route) Delete(ctx context.Context, routes []entity.Route) error {
-	err := r.route.Delete(ctx, routes)
+	err := r.repo.Route.Delete(ctx, routes)
 	if err != nil {
 		return fmt.Errorf("failed to delete routes from repository: %w", err)
 	}
