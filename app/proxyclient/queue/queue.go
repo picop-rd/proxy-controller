@@ -96,7 +96,7 @@ func (q *Queue) start() error {
 		}
 
 		q.queue.Range(func(proxyID string, it *item) bool {
-			log.Debug().Str("proxyID", proxyID).Msg("processing proxy")
+			log.Info().Str("proxyID", proxyID).Msg("processing proxy")
 			err := process(q.ctx, it)
 			if err != nil {
 				log.Error().Err(err).Str("proxyID", proxyID).Msg("failed to process queue")
@@ -122,7 +122,7 @@ func processRegisters(ctx context.Context, it *item) error {
 	envs := make([]proxyEntity.Env, 0)
 	bufRoutes := make([]entity.Route, 0)
 	it.registers.Range(func(envID string, route entity.Route) bool {
-		log.Debug().Str("envID", envID).Msg("processing register route")
+		log.Debug().Str("envID", envID).Msg("processing to register route")
 		env := proxyEntity.Env{
 			EnvID:       route.EnvID,
 			Destination: route.Destination,
@@ -148,7 +148,7 @@ func processDeletes(ctx context.Context, it *item) error {
 	// sync.Mapはlenが不明なので0としておく
 	envIDs := make([]string, 0)
 	it.deletes.Range(func(envID string, _ entity.Route) bool {
-		log.Debug().Str("envID", envID).Msg("processing delete route")
+		log.Debug().Str("envID", envID).Msg("processing to delete route")
 		envIDs = append(envIDs, envID)
 		return true
 	})
