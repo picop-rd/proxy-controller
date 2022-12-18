@@ -2,12 +2,16 @@
 FROM golang:1.19-bullseye AS builder
 
 WORKDIR /go/src/github.com/hiroyaonoe/bcop-proxy-controller/
-COPY . .
 
 RUN mkdir -p -m 0600 ~/.ssh \
         && ssh-keyscan github.com >> ~/.ssh/known_hosts \
         && git config --global url."git@github.com:".insteadOf "https://github.com/"
-RUN --mount=type=ssh CGO_ENABLED=0 go build -o /bcop-proxy-controller ./cmd/controller/main.go
+
+COPY go.mod go.sum ./
+RUN --mount=type=ssh go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 go build -o /bcop-proxy-controller ./cmd/controller/main.go
 
 
 FROM scratch
