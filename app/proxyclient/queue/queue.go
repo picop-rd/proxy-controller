@@ -50,13 +50,11 @@ func (q *Queue) Close() {
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
-	for i := 0; i < 2; i++ {
-		select {
-		case <-q.quit:
-		case <-ctx.Done():
-			log.Fatal().Msg("failed to close queue")
-			return
-		}
+	select {
+	case <-q.quit:
+	case <-ctx.Done():
+		log.Fatal().Msg("failed to close queue")
+		return
 	}
 }
 
