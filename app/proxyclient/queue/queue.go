@@ -14,6 +14,7 @@ import (
 
 var (
 	ErrContextCanceled = errors.New("proxy client queue: context canceled")
+	QueueLoopInterval  = 10 * time.Second
 )
 
 type Queue struct {
@@ -72,12 +73,13 @@ func (q *Queue) del(proxyID string) {
 }
 
 func (q *Queue) start() error {
+	interval := time.NewTicker(QueueLoopInterval)
 	for {
 		select {
 		case <-q.ctx.Done():
 			q.quit <- struct{}{}
 			return nil
-		default:
+		case <-interval.C:
 		}
 
 		q.queue.Range(func(proxyID string, it *item) bool {
