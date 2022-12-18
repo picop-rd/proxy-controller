@@ -2,7 +2,6 @@ package queue
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient"
@@ -29,7 +28,7 @@ func (p *Proxy) Activate(ctx context.Context, proxy entity.Proxy) error {
 
 	proxyID := proxy.ProxyID
 	if _, ok := p.queue.get(proxyID); ok {
-		return fmt.Errorf("proxy client queue: cannot activate existing proxy, proxyID: %s", proxyID)
+		return nil
 	}
 	p.queue.add(proxyID, proxy.Endpoint)
 	return nil
