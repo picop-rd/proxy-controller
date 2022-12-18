@@ -120,7 +120,6 @@ func process(ctx context.Context, it *item) error {
 func processRegisters(ctx context.Context, it *item) error {
 	// sync.Mapはlenが不明なので0としておく
 	envs := make([]proxyEntity.Env, 0)
-	bufRoutes := make([]entity.Route, 0)
 	it.registers.Range(func(envID string, route entity.Route) bool {
 		log.Debug().Str("envID", envID).Msg("processing to register route")
 		env := proxyEntity.Env{
@@ -128,7 +127,6 @@ func processRegisters(ctx context.Context, it *item) error {
 			Destination: route.Destination,
 		}
 		envs = append(envs, env)
-		bufRoutes = append(bufRoutes, route)
 		return true
 	})
 	if len(envs) == 0 {
@@ -136,10 +134,10 @@ func processRegisters(ctx context.Context, it *item) error {
 	}
 	err := it.envCli.Register(ctx, envs)
 	if err != nil {
-		for _, r := range bufRoutes {
-			it.registers.Set(r.EnvID, r)
-		}
 		return err
+	}
+	for _, e := range envs {
+		it.registers.Del(e.EnvID)
 	}
 	return nil
 }
