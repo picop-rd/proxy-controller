@@ -131,6 +131,9 @@ func processRegisters(ctx context.Context, it *item) error {
 		bufRoutes = append(bufRoutes, route)
 		return true
 	})
+	if len(envs) == 0 {
+		return nil
+	}
 	err := it.envCli.Register(ctx, envs)
 	if err != nil {
 		for _, r := range bufRoutes {
