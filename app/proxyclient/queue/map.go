@@ -52,7 +52,7 @@ func (m *Map[T]) Range(f func(k string, v T) bool) {
 		if !ok {
 			return false
 		}
-		vT, ok := k.(T)
+		vT, ok := v.(T)
 		if !ok {
 			return false
 		}
