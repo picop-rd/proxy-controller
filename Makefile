@@ -2,6 +2,10 @@
 docker-compose-build: test
 	docker compose build --ssh default
 
+.PHONY:docker-compose-run
+docker-compose-run: docker-compose-build
+	docker compose up
+
 .PHONY:test
 test: vet fmt
 	go test ./...
