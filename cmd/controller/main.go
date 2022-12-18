@@ -34,7 +34,7 @@ func main() {
 	ucProxy := usecase.NewProxy(repo, client)
 	ctrlProxy := controller.NewProxy(ucProxy)
 
-	ucRoute := usecase.NewRoute(repo)
+	ucRoute := usecase.NewRoute(repo, client)
 	ctrlRoute := controller.NewRoute(ucRoute)
 
 	server := http.NewServer(ctrlProxy, ctrlRoute)

@@ -5,16 +5,19 @@ import (
 	"fmt"
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository"
 )
 
 type Route struct {
-	repo repository.Repository
+	repo   repository.Repository
+	client proxyclient.Client
 }
 
-func NewRoute(repo repository.Repository) *Route {
+func NewRoute(repo repository.Repository, client proxyclient.Client) *Route {
 	return &Route{
-		repo: repo,
+		repo:   repo,
+		client: client,
 	}
 }
 
@@ -29,7 +32,10 @@ func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
 	if err != nil {
 		return fmt.Errorf("failed to register routes to repository: %w", err)
 	}
-	// TODO: キューにrouteを詰める
+	err = r.client.Route.Register(ctx, routes)
+	if err != nil {
+		return fmt.Errorf("failed to register routes by proxyclient: %w", err)
+	}
 	return nil
 }
 
@@ -38,6 +44,9 @@ func (r *Route) Delete(ctx context.Context, routes []entity.Route) error {
 	if err != nil {
 		return fmt.Errorf("failed to delete routes from repository: %w", err)
 	}
-	// TODO: キューにrouteを詰める
+	err = r.client.Route.Delete(ctx, routes)
+	if err != nil {
+		return fmt.Errorf("failed to delete routes by proxyclient: %w", err)
+	}
 	return nil
 }
