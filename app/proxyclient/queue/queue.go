@@ -25,6 +25,9 @@ type Queue struct {
 }
 
 func NewQueue(client *http.Client) *Queue {
+	if client == nil {
+		client = http.DefaultClient
+	}
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	return &Queue{
@@ -41,10 +44,11 @@ func (q *Queue) Start() error {
 }
 
 func (q *Queue) Close() {
+	q.cancelFunc()
+
 	ctx := context.Background()
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
-	q.cancelFunc()
 
 	for i := 0; i < 2; i++ {
 		select {
