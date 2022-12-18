@@ -19,7 +19,19 @@ func NewProxy(db *sqlx.DB) *Proxy {
 }
 
 func (p *Proxy) Get(ctx context.Context, proxyID string) (entity.Proxy, error) {
-	return entity.Proxy{}, nil
+	query := `
+		SELECT
+			proxy_id, endpoint, activate
+		FROM proxies
+		WHERE
+			proxy_id = ?
+	`
+	var proxy entity.Proxy
+	err := p.db.GetContext(ctx, &proxy, query, proxyID)
+	if err != nil {
+		return entity.Proxy{}, err
+	}
+	return proxy, nil
 }
 
 func (p *Proxy) Upsert(ctx context.Context, proxy entity.Proxy) error {
