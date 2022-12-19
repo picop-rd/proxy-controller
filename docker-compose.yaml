@@ -15,7 +15,7 @@ services:
   mysql:
     image: mysql:8.0
     volumes:
-      - ./repository/mysql/schema:/docker-entrypoint-initdb.d
+      - ./app/repository/mysql/schema:/docker-entrypoint-initdb.d
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: bcop
