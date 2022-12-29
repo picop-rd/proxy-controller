@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/controller"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/server"
+	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/server/controller"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient/queue"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository/mysql"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/usecase"
@@ -39,7 +39,7 @@ func main() {
 	ucRoute := usecase.NewRoute(repo, client)
 	ctrlRoute := controller.NewRoute(ucRoute)
 
-	server := http.NewServer(ctrlProxy, ctrlRoute)
+	server := server.NewServer(ctrlProxy, ctrlRoute)
 	server.SetRoute()
 
 	go server.Run(":" + *port)
