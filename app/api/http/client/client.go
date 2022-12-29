@@ -40,7 +40,9 @@ func (c *Client) Put(ctx context.Context, pathElem []string, contentType string,
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", contentType)
+	if len(contentType) != 0 {
+		req.Header.Set("Content-Type", contentType)
+	}
 	return c.client.Do(req)
 }
 

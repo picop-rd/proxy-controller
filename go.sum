@@ -8,10 +8,10 @@ github.com/go-sql-driver/mysql v1.7.0/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
-github.com/hiroyaonoe/bcop-proxy v0.0.0-20221218090303-914d85e95401 h1:EFOGAiRqDLdlJPgvIfHWpS4VCYxvsxEQtk283MtyIfw=
-github.com/hiroyaonoe/bcop-proxy v0.0.0-20221218090303-914d85e95401/go.mod h1:1A+Aj+puzTMindzGzirbo1R8OoTn2ogj4y+Dn2trbQw=
 github.com/hiroyaonoe/bcop-proxy v0.0.0-20221218110222-6f18cee2359d h1:Dme0TzBjG6dIvX4Pk50ut26fO99SWMaLjC2Knfu9CcM=
 github.com/hiroyaonoe/bcop-proxy v0.0.0-20221218110222-6f18cee2359d/go.mod h1:1A+Aj+puzTMindzGzirbo1R8OoTn2ogj4y+Dn2trbQw=
+github.com/hiroyaonoe/bcop-proxy v0.0.0-20221220103813-bf5953a16ab0 h1:USJfcnXST32+4Vu2xXrjnKE+BUMzau505dn97ZL9kRg=
+github.com/hiroyaonoe/bcop-proxy v0.0.0-20221220103813-bf5953a16ab0/go.mod h1:1A+Aj+puzTMindzGzirbo1R8OoTn2ogj4y+Dn2trbQw=
 github.com/jmoiron/sqlx v1.3.5 h1:vFFPA71p1o5gAeqtEAwLU4dnX2napprKtHr7PYIcN3g=
 github.com/jmoiron/sqlx v1.3.5/go.mod h1:nRVWtLre0KfCLJvgxzCsLVMogSvQ1zNJtpYr2Ccp0mQ=
 github.com/labstack/echo/v4 v4.9.1 h1:GliPYSpzGKlyOhqIbG8nmHBo3i1saKWFOgh41AN3b+Y=
