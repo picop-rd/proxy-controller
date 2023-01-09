@@ -31,7 +31,8 @@ func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
 		proxyID := route.ProxyID
 		it, ok := r.queue.get(proxyID)
 		if !ok {
-			return fmt.Errorf("proxy client queue: not found item in queue, proxyID: %s", proxyID)
+			// 該当proxyをactivateする前にrouteをregisterしても良い
+			continue
 		}
 		it.Register(route)
 	}
