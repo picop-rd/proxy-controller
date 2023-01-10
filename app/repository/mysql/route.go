@@ -2,6 +2,8 @@ package mysql
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
 	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository"
@@ -30,6 +32,9 @@ func (r *Route) GetWithProxyID(ctx context.Context, proxyID string) ([]entity.Ro
 	`
 	err := r.db.SelectContext(ctx, &routes, query, proxyID)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return []entity.Route{}, nil
+		}
 		return nil, err
 	}
 	return routes, nil

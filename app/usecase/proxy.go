@@ -63,6 +63,9 @@ func (p *Proxy) Activate(ctx context.Context, proxyID string) error {
 	if err != nil {
 		return fmt.Errorf("failed to get routes from repository: %w", err)
 	}
+	if len(routes) == 0 {
+		return nil
+	}
 	err = p.client.Route.Register(ctx, routes)
 	if err != nil {
 		return fmt.Errorf("failed to register routes by proxyclient: %w", err)
