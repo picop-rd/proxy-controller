@@ -70,18 +70,15 @@ func NewClient(queue *Queue) proxyclient.Client {
 }
 
 func (q *Queue) get(proxyID string) (*item, bool) {
-	log.Debug().Str("proxyID", proxyID).Msg("Get proxy")
 	return q.queue.Get(proxyID)
 }
 
 func (q *Queue) add(proxyID, endpoint string) {
-	log.Debug().Str("proxyID", proxyID).Str("endpoint", endpoint).Msg("Add proxy")
 	it := newItem(client.NewClient(q.client, endpoint))
 	q.queue.Set(proxyID, it)
 }
 
 func (q *Queue) del(proxyID string) {
-	log.Debug().Str("proxyID", proxyID).Msg("Del proxy")
 	q.queue.Del(proxyID)
 }
 
