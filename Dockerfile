@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.19-bullseye AS builder
 
-WORKDIR /go/src/github.com/hiroyaonoe/bcop-proxy-controller/
+WORKDIR /go/src/github.com/picop-rd/proxy-controller/
 
 RUN mkdir -p -m 0600 ~/.ssh \
         && ssh-keyscan github.com >> ~/.ssh/known_hosts \
@@ -11,12 +11,12 @@ COPY go.mod go.sum ./
 RUN --mount=type=ssh go mod download
 
 COPY . .
-RUN CGO_ENABLED=0 go build -o /bcop-proxy-controller ./cmd/controller/main.go
+RUN CGO_ENABLED=0 go build -o /proxy-controller ./cmd/controller/main.go
 
 
 FROM scratch
 
-COPY --from=builder /bcop-proxy-controller /bin/bcop-proxy-controller
-ENTRYPOINT [ "/bin/bcop-proxy-controller" ]
+COPY --from=builder /proxy-controller /bin/proxy-controller
+ENTRYPOINT [ "/bin/proxy-controller" ]
 CMD [ "--port", "8080", "--mysql", "user:password@tcp(localhost:3306)/db?parseTime=true&collation=utf8mb4_bin", "--interval", "10" ]
 

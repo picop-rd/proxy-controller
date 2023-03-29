@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient"
+	"github.com/picop-rd/proxy-controller/app/entity"
+	"github.com/picop-rd/proxy-controller/app/proxyclient"
 )
 
 type Route struct {

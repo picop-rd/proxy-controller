@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
+	"github.com/picop-rd/proxy-controller/app/entity"
 )
 
 type Proxy struct {

@@ -6,11 +6,11 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/server"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/api/http/server/controller"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient/queue"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository/mysql"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/usecase"
+	"github.com/picop-rd/proxy-controller/app/api/http/server"
+	"github.com/picop-rd/proxy-controller/app/api/http/server/controller"
+	"github.com/picop-rd/proxy-controller/app/proxyclient/queue"
+	"github.com/picop-rd/proxy-controller/app/repository/mysql"
+	"github.com/picop-rd/proxy-controller/app/usecase"
 	"github.com/rs/zerolog/log"
 )
 

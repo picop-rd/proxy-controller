@@ -1,2 +1,2 @@
-# bcop-proxy-controller
-BCoPプロキシを管理するコントローラー
+# proxy-controller
+Controller to manage proxies

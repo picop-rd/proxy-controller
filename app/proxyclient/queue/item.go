@@ -1,8 +1,8 @@
 package queue
 
 import (
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
-	"github.com/hiroyaonoe/bcop-proxy/app/admin/api/http/client"
+	"github.com/picop-rd/proxy-controller/app/entity"
+	"github.com/picop-rd/proxy/app/admin/api/http/client"
 )
 
 type item struct {

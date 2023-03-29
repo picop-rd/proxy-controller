@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/repository"
 	"github.com/jmoiron/sqlx"
+	"github.com/picop-rd/proxy-controller/app/entity"
+	"github.com/picop-rd/proxy-controller/app/repository"
 )
 
 type Route struct {

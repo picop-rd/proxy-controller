@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/entity"
-	"github.com/hiroyaonoe/bcop-proxy-controller/app/proxyclient"
-	"github.com/hiroyaonoe/bcop-proxy/app/admin/api/http/client"
-	proxyEntity "github.com/hiroyaonoe/bcop-proxy/app/entity"
+	"github.com/picop-rd/proxy-controller/app/entity"
+	"github.com/picop-rd/proxy-controller/app/proxyclient"
+	"github.com/picop-rd/proxy/app/admin/api/http/client"
+	proxyEntity "github.com/picop-rd/proxy/app/entity"
 	"github.com/rs/zerolog/log"
 )
 
