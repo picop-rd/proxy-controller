@@ -31,7 +31,7 @@ func (r *Route) Register(ctx context.Context, routes []entity.Route) error {
 		proxyID := route.ProxyID
 		it, ok := r.queue.get(proxyID)
 		if !ok {
-			// 該当proxyをactivateする前にrouteをregisterしても良い
+			// You can also register the route before activating the proxy.
 			continue
 		}
 		it.Register(route)
